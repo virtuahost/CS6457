@@ -27,7 +27,7 @@ public static class ControlInputWrapper{
     private static string DPAD_WIN_STICK_Y = "DpadWinStickY";
     private static string DPAD_WIN_STICK_X = "DpadWinStickX";
 
-    private static float GetAxisData(string axisName, bool rawInput)
+    private static float GetAxisData(string axisName, bool rawInput = false)
     {
         if (rawInput)
             return Input.GetAxisRaw(axisName);
@@ -53,7 +53,7 @@ public static class ControlInputWrapper{
         return Input.GetKey(btnKeyCode);
     }
 
-    public static float GetAxis(Axis axisName,bool rawInput)
+    public static float GetAxis(Axis axisName,bool rawInput = false)
     {
         float result = 0;
         switch (axisName)
@@ -142,7 +142,7 @@ public static class ControlInputWrapper{
         return result;
     }
     
-    public static float GetTrigger(Triggers trgName,bool rawInput)
+    public static float GetTrigger(Triggers trgName,bool rawInput = false)
     {
         float result = 0;
         switch (trgName)
