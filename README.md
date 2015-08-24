@@ -7,6 +7,7 @@ This Repository contains the input manager to make setting up and using game con
    ControlInputWrapper is a static class which contains helper functions to get control data from a XBox controller.
 
    Functions:
+   
    a. GetButtonDown
       Given a button name and joystick number returns true or false on key down. Joystick number is optional. Default value is 0 which selects data from All joystick.
       
