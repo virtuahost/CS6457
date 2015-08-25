@@ -4,6 +4,7 @@ using System.Collections;
 //Class to handle mapping of different controllers in Unity over different OS(Windows and Mac Os X primarily). As of now coding for XBox 360 controller
 public static class ControlInputWrapper{
     //Enums to handle all possible inputs on a controller. 3 Broad categories "Buttons", "Triggers" and "Axis". 
+    //Linux environment is supported but for Dpad Keys only wired controllers are supported.
     //PS3 stuff yet to come. A,B,X and Y will map to corresponding buttons on PS3
     //A -> Square
     //B -> X
@@ -26,6 +27,8 @@ public static class ControlInputWrapper{
     private static string LEFT_STICK_X = "Vertical";
     private static string DPAD_WIN_STICK_Y = "DpadWinStickY";
     private static string DPAD_WIN_STICK_X = "DpadWinStickX";
+    private static string DPAD_LINUX_STICK_X = "DpadLinuxStickX";
+    private static string DPAD_LINUX_STICK_Y = "DpadLinuxStickY";
 
     private static float GetAxisData(string axisName, bool rawInput = false)
     {
@@ -117,6 +120,9 @@ public static class ControlInputWrapper{
             case Axis.DPadY:
                 switch (Application.platform)
                 {
+                    case RuntimePlatform.LinuxPlayer:
+                        result = GetAxisData(DPAD_LINUX_STICK_Y,rawInput);
+                        break;
                     case RuntimePlatform.OSXDashboardPlayer:
                     case RuntimePlatform.OSXEditor:
                     case RuntimePlatform.OSXPlayer:
@@ -129,6 +135,9 @@ public static class ControlInputWrapper{
             case Axis.DPadX:
                 switch (Application.platform)
                 {
+                    case RuntimePlatform.LinuxPlayer:
+                        result = GetAxisData(DPAD_LINUX_STICK_Y, rawInput);
+                        break;
                     case RuntimePlatform.OSXDashboardPlayer:
                     case RuntimePlatform.OSXEditor:
                     case RuntimePlatform.OSXPlayer:
