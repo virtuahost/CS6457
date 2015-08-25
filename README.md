@@ -1,8 +1,8 @@
 # CS6457
 
-This Repository contains the input manager to make setting up and using game controllers easy to use with Unity in Windows and OS environment.
+This Repository contains the input manager to make setting up and using game controllers easy to use with Unity in Windows and Mac OSx environment. Linux support has also been added. But Dpad controls are supported only for wired controllers.
 
-1. There is an InputManager.asset file which has to be copied into your Unity project.
+1. There is an InputManager.asset file which has to be copied to the following path under <Unity_project>/ProjectSettings.
 2. ControlInputWrapper.cs script file needs to be put in your Assets folder.
    ControlInputWrapper is a static class which contains helper functions to get control data from a XBox controller.
 
