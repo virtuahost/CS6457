@@ -128,7 +128,7 @@ public static class ControlInputWrapper{
                     case RuntimePlatform.OSXPlayer:
                     case RuntimePlatform.OSXWebPlayer:
                     default:
-                        result = GetAxisData(DPAD_WIN_STICK_X, rawInput);
+                        result = GetAxisData(DPAD_WIN_STICK_Y, rawInput);
                         break;
                 }
                 break;
@@ -136,14 +136,14 @@ public static class ControlInputWrapper{
                 switch (Application.platform)
                 {
                     case RuntimePlatform.LinuxPlayer:
-                        result = GetAxisData(DPAD_LINUX_STICK_Y, rawInput);
+                        result = GetAxisData(DPAD_LINUX_STICK_X, rawInput);
                         break;
                     case RuntimePlatform.OSXDashboardPlayer:
                     case RuntimePlatform.OSXEditor:
                     case RuntimePlatform.OSXPlayer:
                     case RuntimePlatform.OSXWebPlayer:
                     default:
-                        result = GetAxisData(DPAD_WIN_STICK_Y, rawInput);
+                        result = GetAxisData(DPAD_WIN_STICK_X, rawInput);
                         break;
                 }
                 break;
