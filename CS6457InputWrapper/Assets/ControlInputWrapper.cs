@@ -127,6 +127,9 @@ public static class ControlInputWrapper{
                     case RuntimePlatform.OSXEditor:
                     case RuntimePlatform.OSXPlayer:
                     case RuntimePlatform.OSXWebPlayer:
+                        result = (Input.GetKey(KeyCode.JoystickButton6)?-1:0);
+                        if(result == 0) result = (Input.GetKey(KeyCode.JoystickButton5) ?1:0);
+                        break;
                     default:
                         result = GetAxisData(DPAD_WIN_STICK_Y, rawInput);
                         break;
@@ -142,6 +145,9 @@ public static class ControlInputWrapper{
                     case RuntimePlatform.OSXEditor:
                     case RuntimePlatform.OSXPlayer:
                     case RuntimePlatform.OSXWebPlayer:
+                        result = (Input.GetKey(KeyCode.JoystickButton7) ? -1 : 0);
+                        if (result == 0) result = (Input.GetKey(KeyCode.JoystickButton8) ? 1 : 0);
+                        break;
                     default:
                         result = GetAxisData(DPAD_WIN_STICK_X, rawInput);
                         break;
