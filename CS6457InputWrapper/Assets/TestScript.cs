@@ -16,7 +16,7 @@ public class TestScript : MonoBehaviour {
         Debug.Log("Button Back: " + ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.Back));
         Debug.Log("Button Left Bumper: " + ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.LeftBumper));
         Debug.Log("Button Right Bumper: " + ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.RightBumper));
-        Debug.Log("Button Left Stick Click: " + ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.LeftStickCLick));
+        Debug.Log("Button Left Stick Click: " + ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.LeftStickClick));
         Debug.Log("Button Right Stick Click: " + ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.RightStickClick));
         Debug.Log("Button Start: " + ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.Start));
         Debug.Log("Button X: " + ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.X));

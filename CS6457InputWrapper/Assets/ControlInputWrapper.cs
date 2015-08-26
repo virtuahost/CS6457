@@ -11,7 +11,7 @@ public static class ControlInputWrapper{
     //X -> Circle
     //Y -> Triangle
     public enum Axis { LeftStickY, LeftStickX, RightStickY, RightStickX, DPadY, DPadX};
-    public enum Buttons {A, B, X, Y, RightBumper, LeftBumper, Back, Start, LeftStickCLick, RightStickClick };
+    public enum Buttons {A, B, X, Y, RightBumper, LeftBumper, Back, Start, LeftStickClick, RightStickClick };
     public enum Triggers {RightTrigger, LeftTrigger };
     private static string LEFT_OSX_TRIGGER = "LeftOSXTrigger";
     private static string LEFT_LINUX_TRIGGER = "LeftLinuxTrigger";
@@ -312,7 +312,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick1Button9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -431,7 +431,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick2Button9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -550,7 +550,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick3Button9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -672,7 +672,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick4Button9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -791,7 +791,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick5Button9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -913,7 +913,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick6Button9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1032,7 +1032,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick7Button9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1151,7 +1151,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick8Button9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1270,7 +1270,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.JoystickButton9;
                         }
-                    case Buttons.LeftStickCLick:
+                    case Buttons.LeftStickClick:
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
