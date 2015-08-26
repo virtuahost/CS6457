@@ -1,6 +1,6 @@
 # CS6457
 
-This Repository contains the input manager to make setting up and using game controllers easy to use with Unity in Windows and Mac OSx environment. Linux support has also been added. But Dpad controls are supported only for wired controllers.
+This Repository contains the input manager to make setting up and using game controllers easy to use with Unity in Windows and Mac OSx environment. Linux support has also been added. But Dpad controls are supported only for wired controllers on Linux. For Mac OSx Dpad values will be returned as a float value. The values will -1 for left, 1 for right, -1 for up and 1 for down. This is done to match the way Windows reads the data for Dpad.
 
 1. There is an InputManager.asset file which has to be copied to the following path under "Unity_project"/ProjectSettings.
 2. ControlInputWrapper.cs script file needs to be put in your Assets folder.
