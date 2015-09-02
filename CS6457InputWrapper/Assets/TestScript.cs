@@ -15,6 +15,9 @@ public class TestScript : MonoBehaviour {
     public Text trgText;
     public Text trgName;
 
+    //JoyStick Info
+    public Text joyStickName;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -27,6 +30,10 @@ public class TestScript : MonoBehaviour {
         trgText.text = "";
         axisName.text = "";
         axisText.text = "";
+        joyStickName.text = "";
+
+        if (Input.GetJoystickNames().Length > 0)
+            joyStickName.text = Input.GetJoystickNames()[0];
 
         if (ControlInputWrapper.GetButton(ControlInputWrapper.Buttons.A))
             btnText.text = "A";
@@ -83,12 +90,12 @@ public class TestScript : MonoBehaviour {
 
         if (ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.LeftStickY) > 0)
         {
-            axisName.text = "Left Stick Down";
+            axisName.text = "Left Stick Up";
             axisText.text = ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.LeftStickY).ToString();
         }
         else if (ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.LeftStickY) < 0)
         {
-            axisName.text = "Left Stick Up";
+            axisName.text = "Left Stick Down";
             axisText.text = ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.LeftStickY).ToString();
         }
         if (ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.LeftStickX) > 0)
@@ -104,12 +111,12 @@ public class TestScript : MonoBehaviour {
 
         if (ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.DPadY) > 0)
         {
-            axisName.text = "Dpad Down";
+            axisName.text = "Dpad Up";
             axisText.text = ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.DPadY).ToString();
         }
         else if (ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.DPadY) < 0)
         {
-            axisName.text = "Dpad Up";
+            axisName.text = "Dpad Down";
             axisText.text = ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.DPadY).ToString();
         }
         if (ControlInputWrapper.GetAxis(ControlInputWrapper.Axis.DPadX) > 0)

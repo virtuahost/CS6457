@@ -13,6 +13,7 @@ public static class ControlInputWrapper{
     public enum Axis { LeftStickY, LeftStickX, RightStickY, RightStickX, DPadY, DPadX};
     public enum Buttons {A, B, X, Y, RightBumper, LeftBumper, Back, Start, LeftStickClick, RightStickClick };
     public enum Triggers {RightTrigger, LeftTrigger };
+    public enum ControlType { Xbox, PS3};
     private static string LEFT_OSX_TRIGGER = "LeftOSXTrigger";
     private static string LEFT_LINUX_TRIGGER = "LeftLinuxTrigger";
     private static string LEFT_WIN_TRIGGER = "LeftWinTrigger";
@@ -23,12 +24,16 @@ public static class ControlInputWrapper{
     private static string RIGHT_WIN_STICK_Y = "RightWinStickY";
     private static string RIGHT_OSX_STICK_X = "RightOSXStickX";
     private static string RIGHT_WIN_STICK_X = "RightWinStickX";
-    private static string LEFT_STICK_Y = "Horizontal";
-    private static string LEFT_STICK_X = "Vertical";
+    private static string RIGHT_PS_STICK_X = "RightPSStickX";
+    private static string RIGHT_PS_STICK_Y = "RightPSStickY";
+    private static string LEFT_STICK_Y = "Vertical";
+    private static string LEFT_STICK_X = "Horizontal";
     private static string DPAD_WIN_STICK_Y = "DpadWinStickY";
     private static string DPAD_WIN_STICK_X = "DpadWinStickX";
     private static string DPAD_LINUX_STICK_X = "DpadLinuxStickX";
     private static string DPAD_LINUX_STICK_Y = "DpadLinuxStickY";
+    private static string DPAD_PS_STICK_X = "DpadPSStickX";
+    private static string DPAD_PS_STICK_Y = "DpadPSStickY";
 
     private static float GetAxisData(string axisName, bool rawInput = false)
     {
@@ -56,12 +61,31 @@ public static class ControlInputWrapper{
         return Input.GetKey(btnKeyCode);
     }
 
+    public static ControlType GetControlType()
+    {
+        if (Input.GetJoystickNames().Length > 0)
+        {
+            if (Input.GetJoystickNames()[0].ToLower().Contains("playstation")
+                || Input.GetJoystickNames()[0].ToLower().Contains("ps3")|| Input.GetJoystickNames()[0].ToLower().Contains("ps4"))
+            {
+                return ControlType.PS3;
+            }
+        }
+        return ControlType.Xbox;
+    }
+
     public static float GetAxis(Axis axisName,bool rawInput = false)
     {
         float result = 0;
+        ControlType inControlType = GetControlType();
         switch (axisName)
         {
             case Axis.RightStickY:
+                if (inControlType == ControlType.PS3)
+                {
+                    result = GetAxisData(RIGHT_PS_STICK_Y, rawInput);
+                    break;
+                }
                 switch (Application.platform)
                 {
                     case RuntimePlatform.OSXDashboardPlayer:
@@ -77,6 +101,11 @@ public static class ControlInputWrapper{
                 }
                 break;
             case Axis.RightStickX:
+                if (inControlType == ControlType.PS3)
+                {
+                    result = GetAxisData(RIGHT_PS_STICK_X, rawInput);
+                    break;
+                }
                 switch (Application.platform)
                 {
                     case RuntimePlatform.OSXDashboardPlayer:
@@ -118,6 +147,11 @@ public static class ControlInputWrapper{
                 }
                 break;
             case Axis.DPadY:
+                if (inControlType == ControlType.PS3)
+                {
+                    result = GetAxisData(DPAD_PS_STICK_Y, rawInput);
+                    break;
+                }
                 switch (Application.platform)
                 {
                     case RuntimePlatform.LinuxPlayer:
@@ -136,6 +170,11 @@ public static class ControlInputWrapper{
                 }
                 break;
             case Axis.DPadX:
+                if (inControlType == ControlType.PS3)
+                {
+                    result = GetAxisData(DPAD_PS_STICK_X, rawInput);
+                    break;
+                }
                 switch (Application.platform)
                 {
                     case RuntimePlatform.LinuxPlayer:
@@ -160,9 +199,15 @@ public static class ControlInputWrapper{
     public static float GetTrigger(Triggers trgName,bool rawInput = false)
     {
         float result = 0;
+        ControlType inControlType = GetControlType();
         switch (trgName)
         {
             case Triggers.LeftTrigger:
+                if (inControlType == ControlType.PS3)
+                {
+                    result = (Input.GetKey(KeyCode.JoystickButton6) ? 1 : 0);
+                    break;
+                }
                 switch (Application.platform)
                 {
                     case RuntimePlatform.OSXDashboardPlayer:
@@ -180,6 +225,11 @@ public static class ControlInputWrapper{
                 }
                 break;
             case Triggers.RightTrigger:
+                if (inControlType == ControlType.PS3)
+                {
+                    result = (Input.GetKey(KeyCode.JoystickButton7) ? 1 : 0);
+                    break;
+                }
                 switch (Application.platform)
                 {
                     case RuntimePlatform.OSXDashboardPlayer:
@@ -203,12 +253,13 @@ public static class ControlInputWrapper{
     //Function to return Keycode of a particular button based on OS and joystick number. Joystick number 0 is considered for "Any" joystick.
     public static KeyCode GetKeyCode(Buttons btn,int joyStickNumber = 0)
     {
+        ControlType inControlType = GetControlType();
         switch (joyStickNumber)
         {
             case 1:
                 switch (btn)
                 {
-                    case Buttons.A:
+                    case Buttons.A: //Square for playstation
                         switch(Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -219,7 +270,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick1Button0;
                         }
-                    case Buttons.B:
+                    case Buttons.B: //X for playstation
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -230,7 +281,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick1Button1;
                         }
-                    case Buttons.X:
+                    case Buttons.X:  //Circle for playstation
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -241,7 +292,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick1Button2;
                         }
-                    case Buttons.Y:
+                    case Buttons.Y: //Triangle for playstation
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -252,7 +303,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick1Button3;
                         }
-                    case Buttons.RightBumper:
+                    case Buttons.RightBumper:   //R1 for playstation
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -266,7 +317,7 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick1Button5;
                         }
-                    case Buttons.LeftBumper:
+                    case Buttons.LeftBumper:    //L1 for playstation
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -277,7 +328,11 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick1Button4;
                         }
-                    case Buttons.Back:
+                    case Buttons.Back:      //Select for playstation
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick1Button8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -288,7 +343,11 @@ public static class ControlInputWrapper{
                             default:
                                 return KeyCode.Joystick1Button6;
                         }
-                    case Buttons.Start:
+                    case Buttons.Start:     //Start for playstation
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick1Button9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -300,6 +359,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick1Button7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick1Button13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -313,6 +376,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick1Button9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick1Button12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -397,6 +464,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick2Button4;
                         }
                     case Buttons.Back:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick2Button8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -408,6 +479,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick2Button6;
                         }
                     case Buttons.Start:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick2Button9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -419,6 +494,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick2Button7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick2Button13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -432,6 +511,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick2Button9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick2Button12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -516,6 +599,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick3Button4;
                         }
                     case Buttons.Back:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick3Button8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -527,6 +614,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick3Button6;
                         }
                     case Buttons.Start:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick3Button9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -538,6 +629,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick3Button7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick3Button13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -551,6 +646,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick3Button9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick3Button12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -638,6 +737,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick4Button4;
                         }
                     case Buttons.Back:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick4Button8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -649,6 +752,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick4Button6;
                         }
                     case Buttons.Start:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick4Button9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -660,6 +767,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick4Button7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick4Button13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -673,6 +784,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick4Button9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick4Button12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -757,6 +872,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick5Button4;
                         }
                     case Buttons.Back:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick5Button8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -768,6 +887,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick5Button6;
                         }
                     case Buttons.Start:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick5Button9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -779,6 +902,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick5Button7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick5Button13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -792,6 +919,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick5Button9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick5Button12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -876,6 +1007,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick6Button4;
                         }
                     case Buttons.Back:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick6Button8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -887,6 +1022,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick6Button6;
                         }
                     case Buttons.Start:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick6Button9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -901,6 +1040,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick6Button7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick6Button13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -914,6 +1057,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick6Button9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick6Button12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -998,6 +1145,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick7Button4;
                         }
                     case Buttons.Back:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick7Button8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1009,6 +1160,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick7Button6;
                         }
                     case Buttons.Start:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick7Button9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1020,6 +1175,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick7Button7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick7Button13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1033,6 +1192,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick7Button9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick7Button12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1117,6 +1280,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick8Button4;
                         }
                     case Buttons.Back:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick8Button8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1128,6 +1295,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick8Button6;
                         }
                     case Buttons.Start:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick8Button9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1139,6 +1310,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick8Button7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick8Button13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1152,6 +1327,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.Joystick8Button9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.Joystick8Button12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1236,6 +1415,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.JoystickButton4;
                         }
                     case Buttons.Back:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.JoystickButton8;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1247,6 +1430,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.JoystickButton6;
                         }
                     case Buttons.Start:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.JoystickButton9;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1258,6 +1445,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.JoystickButton7;
                         }
                     case Buttons.RightStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.JoystickButton13;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
@@ -1271,6 +1462,10 @@ public static class ControlInputWrapper{
                                 return KeyCode.JoystickButton9;
                         }
                     case Buttons.LeftStickClick:
+                        if (inControlType == ControlType.PS3)
+                        {
+                            return KeyCode.JoystickButton12;
+                        }
                         switch (Application.platform)
                         {
                             case RuntimePlatform.OSXDashboardPlayer:
